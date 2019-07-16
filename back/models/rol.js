@@ -1,7 +1,10 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Rol = sequelize.define('Rol', {
-    id: DataTypes.UUID,
+    uuid: {
+      type: Sequelize.UUID,
+      defaultValue: Sequelize.UUIDV4
+    },
     name: DataTypes.STRING,
     function: DataTypes.STRING
   }, {});
