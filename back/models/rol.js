@@ -1,4 +1,7 @@
 "use strict";
+const Sequelize = require("sequelize");
+const User = require("./user");
+
 module.exports = (sequelize, DataTypes) => {
   const Rol = sequelize.define(
     "Rol",
@@ -15,3 +18,6 @@ module.exports = (sequelize, DataTypes) => {
 
   return Rol;
 };
+
+Rol.hasMany(User);
+

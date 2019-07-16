@@ -1,14 +1,12 @@
-const config = require("./config");
+require("dotenv").config();
+const Sequelize = require("sequelize");
 
-const dbName = config.development.database;
-const dbUser = config.development.username;
-const dbPass = config.development.password;
-const dbHost = config.development.host;
-const dbPort = "8080";
-const dbDialect = config.development.dialect;
+let dbName = process.env.DATABASE;
+if (process.env.NODE_ENV === "test") {
+  dbName = process.env.DATABASE_TEST;
+}
 
-module.exports = new Sequelize(dbName, dbUser, dbPass, {
-  host: dbHost,
-  port: dbPort,
-  dialect: dbDialect
+module.exports = new Sequelize(dbName, process.env.DB_USER, process.env.DB_PASSWORD, {
+  host: process.env.HOST,
+  dialect: process.env.DIALECT
 });

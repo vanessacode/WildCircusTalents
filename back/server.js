@@ -7,29 +7,25 @@ const port = 8080;
 
 //Connection DB
 const connection = require("./config/config");
-
-const Sequelize = require("sequelize");
-const sequelize = require("./config/connect");
-
-try {
-  await sequelize.authenticate();
-  console.log("Connection has been established successfully.");
-} catch (err) {
-  console.error("Unable to connect to the database:", err);
-  process.exit();
-}
-
 const Index = require("./models/index");
 const User = require("./models/user");
 const Rol = require("./models/rol");
+const Sequelize = require("sequelize");
+const sequelize = require("./config/connect");
 
-User.belongsTo(Rol);
-Rol.hasMany(User);
+// try {
+//   await sequelize.authenticate();
+//   console.log("Connection has been established successfully.");
+// } catch (err) {
+//   console.error("Unable to connect to the database:", err);
+//   process.exit();
+// }
 
-// Event.belongsTo(User, { foreignKey: "uuid", targetKey: "uuid" });
-// User.hasMany(Event, { foreignKey: "uuid", sourceKey: "uuid" });
 
-await sequelize.sync(); // {force: true} to erase all data in the database
+// User.belongsTo(Rol, { foreignKey: "uuid_rol", targetKey: "uuid" });
+// Rol.hasMany(User);
+
+// await sequelize.sync(); // {force: true} to erase all data in the database
 
 //Body-parser
 const bodyParser = require("body-parser");

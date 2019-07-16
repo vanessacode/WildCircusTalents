@@ -1,4 +1,7 @@
 "use strict";
+const Sequelize = require("sequelize");
+const Rol = require("./rol");
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
     "User",
@@ -6,6 +9,14 @@ module.exports = (sequelize, DataTypes) => {
       uuid: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4
+      },
+      uuid_rol: {
+        allowNull: false,
+        type: Sequelize.UUID,
+        references: {
+          model: 'Rol',
+          key: 'uuid'
+        }
       },
       firstName: DataTypes.STRING,
       lastName: DataTypes.STRING,
@@ -18,3 +29,5 @@ module.exports = (sequelize, DataTypes) => {
 
   return User;
 };
+
+User.belongsTo(Rol, { foreignKey: "uuid_rol", targetKey: "uuid" });
