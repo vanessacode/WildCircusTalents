@@ -1,46 +1,32 @@
 //Imports
-const express = require("express");
+const express = require('express');
 
 //Server and port
 const app = express();
-const port = 8080;
+app.use(express.json());
+const port = 4000;
 
 //Connection DB
-const connection = require("./config/config");
-const Index = require("./models/index");
-const User = require("./models/user");
-const Rol = require("./models/rol");
-const Sequelize = require("sequelize");
-const sequelize = require("./config/connect");
+const { sequelize, User } = require('./models');
 
-// try {
-//   await sequelize.authenticate();
-//   console.log("Connection has been established successfully.");
-// } catch (err) {
-//   console.error("Unable to connect to the database:", err);
-//   process.exit();
-// }
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log('Connect');
+    //Configure routes
+    app.get('/users', (req, res) => {
+      User.findAll().then((users) => {
+        res.status(200).json(users);
+      });
+    });
 
-
-// User.belongsTo(Rol, { foreignKey: "uuid_rol", targetKey: "uuid" });
-// Rol.hasMany(User);
-
-// await sequelize.sync(); // {force: true} to erase all data in the database
-
-//Body-parser
-const bodyParser = require("body-parser");
-app.use(bodyParser.json());
-
-app.use(
-  bodyParser.urlencoded({
-    extended: true
+    // Launch server
+    if (process.env.NODE_ENV !== 'test') {
+      app.listen(port, () => console.log('Server listening on port 4000!'));
+    }
   })
-);
+  .catch((err) => {
+    console.log('No connect');
+  });
 
-//Configure routes
-app.get("/", (req, res) => {
-  res.status(200).send("<h1>Server ok!!!! </h1>");
-});
-
-// Launch server
-app.listen(port, () => console.log("Server listening on port 8080!"));
+module.exports = app;
