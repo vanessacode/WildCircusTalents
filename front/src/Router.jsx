@@ -12,8 +12,8 @@ import WildTeam from './components/WildTeam';
 export default function Routeur() {
   return (
     <Switch>
-      <Route path="/" component={Inscriptions} />
-      <Route path="/wild-circus-members" component={WildTeam} />
+      <Route path="/inscriptions" component={Inscriptions} />
+      <Route path="/members" component={WildTeam} />
     </Switch>
   );
 }
