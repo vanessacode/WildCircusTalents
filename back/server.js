@@ -1,5 +1,6 @@
 //Imports
 const express = require('express');
+const { createDefaultRol, createDefaultUsers } = require('./seeders');
 
 //Server and port
 const app = express();
@@ -7,11 +8,11 @@ app.use(express.json());
 const port = 4000;
 
 //Connection DB
-const { sequelize, User } = require('./models');
+const { sequelize, User, Rol } = require('./models');
 
 sequelize
   .authenticate()
-  .then(() => {
+  .then(async () => {
     console.log('Connect');
     //Configure routes
     app.get('/users', (req, res) => {
@@ -25,6 +26,12 @@ sequelize
         res.status(200).json(createdUser);
       });
     });
+
+    sequelize.sync({ force: true });
+    await Rols.count();
+    // Seeders
+    // await createDefaultRol();
+    // await createDefaultUsers();
 
     // Launch server
     if (process.env.NODE_ENV !== 'test') {
