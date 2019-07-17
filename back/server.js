@@ -20,6 +20,12 @@ sequelize
       });
     });
 
+    app.post('/users', (req, res) => {
+      User.create(req.body).then((createdUser) => {
+        res.status(200).json(createdUser);
+      });
+    });
+
     // Launch server
     if (process.env.NODE_ENV !== 'test') {
       app.listen(port, () => console.log('Server listening on port 4000!'));

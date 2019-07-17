@@ -45,4 +45,39 @@ describe('Users', () => {
           });
       });
   });
+
+  it('POST /users: Should create a user is not member and 200', (done) => {
+    // 0 : creer un user
+    // 1 : faire POST /users
+    // 2 : verifier la response
+    const rol = {
+      name: 'clown',
+      description: 'Rol description',
+    };
+    let user;
+    Rol.create(rol)
+      .then((createdRol) => {
+        user = {
+          firstName: 'Vanessa',
+          lastName: 'Salvador',
+          phone: 695030609,
+          email: 'jdashdjkhas@njkashdj.com',
+          isMember: false,
+          rol_uuid: createdRol.uuid,
+        };
+      })
+      .then(() => {
+        chai
+          .request(app)
+          .post('/users')
+          .send(user)
+          .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.be.a('object');
+            res.body.should.deep.include(user);
+            res.body.isMember.should.be.equal(false);
+            done();
+          });
+      });
+  });
 });
