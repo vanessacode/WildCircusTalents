@@ -1,45 +1,46 @@
-//Imports
+require('dotenv').config();
 const express = require('express');
-const { createDefaultRol, createDefaultUsers } = require('./seeders');
-
-//Server and port
 const app = express();
+const cors = require('cors');
+const PORT = process.env.PORT || 4000;
+const sequelize = require('./sequelize');
+
+// Swagger doc
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+// Console Logging
+const chalk = require('chalk');
+const error = chalk.bold.red;
+const success = chalk.bold.green;
+
+// Middlewares
+app.use(cors());
 app.use(express.json());
-const port = 4000;
+app.use(require('express-status-monitor')({ title: 'Wild Circus Biarritz' }));
 
-//Connection DB
-const { sequelize, User, Rol } = require('./models');
+// Routes
+// app.use('/users', require('./routes/users.route.js'));
 
-sequelize
-  .authenticate()
-  .then(async () => {
-    console.log('Connect');
-    //Configure routes
-    app.get('/users', (req, res) => {
-      User.findAll().then((users) => {
-        res.status(200).json(users);
-      });
+async function main() {
+  await sequelize.sync();
+  try {
+    await sequelize.authenticate();
+    console.log(success('Connection successful.'));
+    app.listen(PORT, (err) => {
+      if (err) {
+        throw new Error(error('Something bad happened ...'));
+      }
+      console.log(success(`Listening to ${PORT}.`));
     });
+  } catch (err) {
+    console.error(error('Unable to reach database: '), err);
+  }
+}
 
-    app.post('/users', (req, res) => {
-      User.create(req.body).then((createdUser) => {
-        res.status(200).json(createdUser);
-      });
-    });
-
-    sequelize.sync({ force: true });
-    await Rols.count();
-    // Seeders
-    // await createDefaultRol();
-    // await createDefaultUsers();
-
-    // Launch server
-    if (process.env.NODE_ENV !== 'test') {
-      app.listen(port, () => console.log('Server listening on port 4000!'));
-    }
-  })
-  .catch((err) => {
-    console.log('No connect');
-  });
+if (process.env.NODE_ENV !== 'test') {
+  main();
+}
 
 module.exports = app;

@@ -1,27 +1,23 @@
-require("dotenv").config();
+require('dotenv').config();
 
-const config = {
-  development: {
-    username: process.env.DB_USER,
-    password: process.env.DB_PASWWORD,
-    database: process.env.DATABASE,
-    host: process.env.HOST,
-    dialect: process.env.DIALECT
-  },
-  test: {
-    password: process.env.DB_PASWWORD,
-    username: process.env.DB_USER,
-    database: process.env.DATABASE_TEST,
-    host: process.env.HOST,
-    dialect: process.env.DIALECT
-  },
-  production: {
-    username: process.env.DB_USER,
-    password: process.env.DB_PASWWORD,
-    database: process.env.DATABASE,
-    host: process.env.HOST,
-    dialect: process.env.DIALECT
-  }
+const host = process.env.HOST;
+const username = process.env.DB_USER;
+const password = process.env.DB_PASWWORD;
+let database = process.env.DATABASE;
+let dialect = process.env.DIALECT;
+
+if (process.env.NODE_ENV === 'test') {
+  database = process.env.DATABASE_TEST;
+} else if (process.env.NODE_ENV === 'production') {
+  dialect = 'mysql';
 }
 
-module.exports = config;
+const conf = {
+  host,
+  username,
+  password,
+  database,
+  dialect,
+};
+
+module.exports = conf;
