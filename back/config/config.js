@@ -8,8 +8,6 @@ let dialect = process.env.DIALECT;
 
 if (process.env.NODE_ENV === 'test') {
   database = process.env.DATABASE_TEST;
-} else if (process.env.NODE_ENV === 'production') {
-  dialect = 'mysql';
 }
 
 const conf = {
@@ -18,6 +16,7 @@ const conf = {
   password,
   database,
   dialect,
+  logging: false,
 };
 
 module.exports = conf;
