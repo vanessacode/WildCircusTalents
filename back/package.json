@@ -1,0 +1,38 @@
+{
+  "name": "wild-circus-biarritz",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "NODE_ENV=test mocha --exit",
+    "start": "nodemon index.js"
+  },
+  "keywords": [
+    "server.http"
+  ],
+  "author": "Vanessa Salvador",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "cors": "^2.8.5",
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "express-status-monitor": "^1.2.6",
+    "joi": "^14.3.1",
+    "mysql": "^2.17.1",
+    "node": "^12.6.0",
+    "sequelize": "^5.10.1",
+    "swagger-ui-express": "^4.0.7",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "husky": "^3.0.1",
+    "mocha": "^6.1.4",
+    "mysql2": "^1.6.5",
+    "nodemon": "^1.19.1",
+    "prettier": "^1.18.2",
+    "pretty-quick": "^1.11.1"
+  }
+}
