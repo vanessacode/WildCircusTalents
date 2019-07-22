@@ -34,6 +34,10 @@ const User = sequelize.define(
       type: Sequelize.BOOLEAN,
       allowNull: true,
     },
+    rol_uuid: {
+      type: Sequelize.UUID,
+      allowNull: false,
+    },
   },
   {}
 );

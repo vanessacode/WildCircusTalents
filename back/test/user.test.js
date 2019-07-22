@@ -20,7 +20,6 @@ describe('Users', () => {
     // 1 : faire GET /users
     // 2 : verifier la response
     const rol = {
-      uuid: uuid(),
       name: 'clown',
       description: 'Rol description',
     };
